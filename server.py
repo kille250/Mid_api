@@ -52,14 +52,15 @@ def get_post_per_id(id: int):
     post = get_post(id)
     if post is None:
         if id in data:
-            return tag_builder("img", "", src=data[id])
+            return tag_builder("img", "", src=data[id])+tag_builder("p", "Request is finished processing.")
         else:
             return "Post not found."
 
     if len(post["attachments"]) != 0:
         url = post["attachments"][0]["url"]
         data[id] = post["attachments"][0]["url"]
-        return tag_builder("img", "", src=url)
+        result = tag_builder("img", "", src=url)
+        return result+tag_builder("p", "Request is currently processing. It can take a while.")
     else:
         return "Progress will be shown. Reload the Page after a few seconds"
 
