@@ -7,7 +7,7 @@ app = Flask(__name__)
 data = {}
 
 header = {
-    "Authorization" : "MTc4NTU4MDgzNjg4MTY5NDcy.Gar1Qw.2jZrIcc2QzAl4jAGcvbRvVBm8h2XXtuPi_k1Rc"
+    "Authorization" : ""
 }
 
 def tag_builder(tagline: str, inline: str, **kwargs: str):
@@ -62,7 +62,7 @@ def get_post_per_id(id: int):
         result = tag_builder("img", "", src=url)
         return result+tag_builder("p", "Request is currently processing. It can take a while.")+"<meta http-equiv='refresh' content='5'>"
     else:
-        return "Progress will be shown. Reload the Page after a few seconds"
+        return "Progress will be shown. Reload the Page after a few seconds"+"<meta http-equiv='refresh' content='5'>"
 
 @app.route("/post", methods=['POST', 'GET'])
 def post_query():
