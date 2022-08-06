@@ -83,14 +83,14 @@ def post_query():
         r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=header)
         posts = get_posts()
         data[posts[0]["id"]] = (posts[0]["attachments"][0]["url"] if len(posts[0]["attachments"]) != 0 else None)
-        button =tag_builder("a",tag_builder("button","Go there to watch the progress"), href=f"'http://192.168.0.87:1337/get/{posts[0]['id']}'")
+        button =tag_builder("a",tag_builder("button","Go there to watch the progress"), href=f"'http://167.235.79.2:1337/get/{posts[0]['id']}'")
         return button
     if request.method == 'GET':
 
         r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=header)
         posts = get_posts()
         data[posts[0]["id"]] = (posts[0]["attachments"][0]["url"] if len(posts[0]["attachments"]) != 0 else None)
-        button =tag_builder("a",tag_builder("button","Go there to watch the progress"), href=f"'http://192.168.0.87:1337/get/{posts[0]['id']}'")
+        button =tag_builder("a",tag_builder("button","Go there to watch the progress"), href=f"'http://167.235.79.2:1337/get/{posts[0]['id']}'")
         return button
 
 if __name__ == "__main__":
