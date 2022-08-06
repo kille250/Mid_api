@@ -7,7 +7,7 @@ app = Flask(__name__)
 data = {}
 
 header = {
-    "Authorization" : ""
+    "Authorization" : "MTc4NTU4MDgzNjg4MTY5NDcy.GJaczC.cHZgSyLG2OGhG0ZxDFtYzO95AjH4550ebZqxf8"
 }
 
 def tag_builder(tagline: str, inline: str, **kwargs: str):
@@ -27,7 +27,7 @@ def get_posts():
 def get_post(id: int):
     js = get_posts()
     for i in js:
-        if i["id"] == id:
+        if i["id"] == id and str(id) in data:
             return i
     return None
 
