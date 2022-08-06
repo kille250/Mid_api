@@ -70,8 +70,10 @@ def post_query():
 
     if 'value' not in request.args.keys() and 'value' not in request.form.keys():
         return "Parameter Value is missing"
-    elif request.form.get('value') is "" or request.args.get('value') is "":
+    elif request.form.get('value') is "" or request.args.get('value') is "".strip:
         return "No Input, try again."
+    elif request.form.get('value').startswith(" ") or request.args.get('value').startswith(" "):
+        return "Remove the space from the beginning."
 
     if len(request.form) != 0:
         query = request.form.get('value')
