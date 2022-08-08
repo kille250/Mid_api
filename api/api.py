@@ -4,26 +4,18 @@ import requests
 
 api_bp = Blueprint('api_bp', __name__, url_prefix="/api")
 
-
-header = {
-    "Authorization" : "MTc4NTU4MDgzNjg4MTY5NDcy.GdhAMO.VX-zrpuSLYJXAxqhEZ0B48eXuPY9Gl1kcN3TmU"
-}
-
 data = {}
 
+def head_builder(key: str):
+    header = {
+        "Authorization" : key
+    }
 
-def tag_builder(tagline: str, inline: str, **kwargs: str):
-    str = ""
-
-    str += f'<{tagline}'
-    for key, value in kwargs.items():
-        str += ' {0}={1}'.format(key, value)
-    str += f'>{inline}</{tagline}>'
-    return str
+    return header
 
 
 def get_posts():
-    mess = requests.get("https://discord.com/api/v9/channels/997632760074227732/messages", headers=header)
+    mess = requests.get("https://discord.com/api/v9/channels/997632760074227732/messages", headers=head_builder(current_app.config["AUTH"]))
     js = json.loads(mess.text)
     return js
 
@@ -52,21 +44,21 @@ def home_page():
     return render_template("index.html")
 
 
-@api_bp.route("/<id>", methods=['GET'])
+@api_bp.route("/post/<id>", methods=['GET'])
 def get_post_per_id(id: int):
     post = get_post(id)
     if post is None:
         if id in data:
-            return tag_builder("img", "", src=data[id])+tag_builder("p", "Request is finished processing.")
+            return render_template('render_preview.html', url=data[id], text="Task finished.")
         else:
             return "Post not found."
 
     if len(post["attachments"]) != 0:
         url = post["attachments"][0]["url"]
         data[id] = url
-        return render_template('render_preview.html', url=url, reload="refresh", type=5)
+        return render_template('render_preview.html', url=url, reload="refresh", type=5, text="Image-Generation will take a while. Please be patiend.")
     else:
-        return "Progress will be shown. Reload the Page after a few seconds"+"<meta http-equiv='refresh' content='5'>"
+        return render_template('render_preview.html',reload="refresh", type=5, text="Process will start, wait a moment.")
 
 
 @api_bp.route("/", methods=['POST', 'GET'])
@@ -92,14 +84,14 @@ def post_query():
     payload = make_payload(query)
 
     if request.method == 'POST':
-        r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=header)
+        r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=head_builder(current_app.config["AUTH"]))
         posts = get_posts()
         data[posts[0]["id"]] = (posts[0]["attachments"][0]["url"] if len(posts[0]["attachments"]) != 0 else None)
         domain = current_app.config['IP']
-        return redirect(posts[0]["id"])
+        return redirect("post/"+posts[0]["id"])
     if request.method == 'GET':
-        r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=header)
+        r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=head_builder(current_app.config["AUTH"]))
         posts = get_posts()
         data[posts[0]["id"]] = (posts[0]["attachments"][0]["url"] if len(posts[0]["attachments"]) != 0 else None)
         domain = current_app.config['IP']
-        return redirect(posts[0]["id"])
+        return redirect("post/"+posts[0]["id"])

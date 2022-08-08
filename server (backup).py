@@ -7,7 +7,7 @@ app = Flask(__name__)
 data = {}
 
 header = {
-    "Authorization" : "MTc4NTU4MDgzNjg4MTY5NDcy.GdhAMO.VX-zrpuSLYJXAxqhEZ0B48eXuPY9Gl1kcN3TmU"
+    "Authorization" : ""
 }
 
 def tag_builder(tagline: str, inline: str, **kwargs: str):
