@@ -1,2 +1,2 @@
 IP = "127.0.0.1"
-AUTH = "MTc4NTU4MDgzNjg4MTY5NDcy.GbQ6r5.OVbuDCZisKC9ib4na4dkxJDkExwFA22yYQYu8k"
+AUTH = ""
