@@ -55,10 +55,10 @@ def response_maker(post: Post):
 
 @api_bp.route("/", methods=['GET'])
 def home_page():
-    arr = []
-    for i in data:
-        arr.append(response_maker(i))
-    return arr
+    arr = {}
+    for i in range(len(data)):
+        arr[i] = data[i]
+    return response_maker(arr)
 
 @api_bp.route("/post/<id>", methods=['GET'])
 def get_post_per_id(id: str):
