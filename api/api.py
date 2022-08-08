@@ -45,9 +45,9 @@ def make_payload(query: str):
 
     return payload
 
-def response_maker(post: Post):
+def response_maker(data: dict):
     response = current_app.response_class(
-        response=json.dumps(post.get_data()),
+        response=json.dumps(data),
         status=200,
         mimetype='application/json'
     )
@@ -57,7 +57,7 @@ def response_maker(post: Post):
 def home_page():
     arr = {}
     for i in range(len(data)):
-        arr[i] = data[i]
+        arr[i] = data[i].get_data()
     return response_maker(arr)
 
 @api_bp.route("/post/<id>", methods=['GET'])
@@ -68,16 +68,16 @@ def get_post_per_id(id: str):
         if local_post.get_status() != "Finished":
             #return render_template('render_preview.html', url=data[id], text="Task finished.")
             local_post.set_status("Finished")
-        return response_maker(local_post)
+        return response_maker(local_post.get_data())
     elif post is None and local_post is None:
         not_found = Post(status="Not found.")
-        return response_maker(not_found)
+        return response_maker(not_found.get_data())
 
     if len(post["attachments"]) != 0:
         url = post["attachments"][0]["url"]
         local_post.set_file(url)
         #return render_template('render_preview.html', url=url, reload="refresh", type=5, text="Image-Generation will take a while. Please be patiend.")
-    return response_maker(local_post)
+    return response_maker(local_post.get_data())
         #return render_template('render_preview.html',reload="refresh", type=5, text="Process will start, wait a moment.")
 
 
@@ -114,7 +114,7 @@ def post_query():
         #data[posts[0]["id"]] = (posts[0]["attachments"][0]["url"] if len(posts[0]["attachments"]) != 0 else None)
         domain = current_app.config['IP']
         #return redirect("post/"+posts[0]["id"])
-        return response_maker(post)
+        return response_maker(post.get_data())
     if request.method == 'GET':
         r = requests.post("https://discord.com/api/v9/interactions", json=payload, headers=head_builder(current_app.config["AUTH"]))
         posts = get_posts()
@@ -124,5 +124,5 @@ def post_query():
         data.append(post)
         #data[posts[0]["id"]] = (posts[0]["attachments"][0]["url"] if len(posts[0]["attachments"]) != 0 else None)
         domain = current_app.config['IP']
-        return response_maker(post)
+        return response_maker(post.get_data())
         #return redirect("post/"+posts[0]["id"])
