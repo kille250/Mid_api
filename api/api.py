@@ -55,7 +55,7 @@ def response_maker(post: Post):
 
 @api_bp.route("/", methods=['GET'])
 def home_page():
-    arr = {}
+    arr = []
     for i in data:
         arr.append(response_maker(i))
     return arr
