@@ -1,12 +1,24 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends 'base.html' %}
 
- <form method="POST" action="/process">
-  <label for="value">Value:</label><br>
-  <input type="text" id="value" name="value"><br><br>
-  <input type="submit" value="Submit">
-</form>
+{% block content %}
+<style>
+  .shadow-custom {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25), 0 3px 10px 5px rgba(0, 0, 0, 0.71) !important;
+  }
+</style>
 
-</body>
-</html>
+<div class="d-flex justify-content-center align-items-center" style="background-image: url('https://cdn.donmai.us/original/d6/8b/__asuna_and_kirito_sword_art_online_drawn_by_yuuki_tatsuya__d68bd8004d256479d239077c46edf0fe.jpg');
+       height: 100%">
+  <form method="POST" action="/process">
+    <div class="shadow-custom p-3 mb-5 bg-white rounded">
+      <div class="form-group">
+        <label class="form-text text-black" for="value">Let your imagination take the lead</label><br>
+        <input type="text" class="form-control" id="value" name="value"><br><br>
+        <div class="row justify-content-center">
+          <input class="btn btn-primary" type="submit" value="Submit">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

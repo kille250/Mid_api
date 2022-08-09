@@ -1,9 +1,24 @@
-<!DOCTYPE html>
-<html>
-<body>
+{% extends 'base.html' %}
 
- <img src="{{ url }}">
- <meta http-equiv="{{ reload }}" content="{{ type }}">
- <p>{{ text }}</p>
-</body>
-</html>
+{% block content %}
+<style>
+  .shadow-custom {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .25), 0 3px 10px 5px rgba(0, 0, 0, 0.71) !important;
+  }
+</style>
+
+  <meta http-equiv="{{ reload }}" content="{{ type }}">
+  <div class="d-flex justify-content-center align-items-center mt-5">
+    <div class="shadow-custom p-2 mb-4 bg-white rounded">
+     <img class="img-fluid" src="{{ url }}">
+   </div>
+  </div>
+  <div class="d-flex justify-content-center text-white">
+    <h1>{{ text }}</h1>
+  </div>
+  <div class="d-flex justify-content-center text-white pt-2">
+    <a href="{{domain}}">
+      <button class="btn btn-primary">Another Round</button>
+    </a>
+  </div>
+{% endblock %}

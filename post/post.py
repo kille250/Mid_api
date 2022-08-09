@@ -19,9 +19,9 @@ def send_request():
     arr = json.loads(res.text)
     if res.status_code == 200:
         return redirect(f'/{str(arr["id"])}')
-    else:
+    elif res.status_code == 400:
         #Error Page fehlt.
-        return None
+        return arr
 
 @post_bp.route("/<id>", methods=['GET'])
 def view(id: str):
@@ -30,12 +30,12 @@ def view(id: str):
     arr = json.loads(res.text)
 
     if arr["status"] == "Finished":
-        return render_template('post/render_preview.html', url=arr['file'], text="Image-Processing is done")
-    elif arr['status'] == "Error":
+        return render_template('post/render_preview.html', url=arr['file'], text="Image-Processing is done", domain=current_app.config['DOMAIN'])
+    elif arr['status'] == "Not found.":
         #Error Page is missing
-        return None
+        return arr
     elif arr['status'] == "Processing":
         if arr['file'] is None:
-            return render_template('post/render_preview.html', reload="refresh", type=5, text="Image-Processing is starting, please wait a while.")
+            return render_template('post/render_preview.html', reload="refresh", type=5, text="Image-Processing is starting, please wait a while.", domain=current_app.config['DOMAIN'])
         else:
-            return render_template('post/render_preview.html', url=arr['file'], reload="refresh", type=5, text="Processing...")
+            return render_template('post/render_preview.html', url=arr['file'], reload="refresh", type=5, text="Processing...", domain=current_app.config['DOMAIN'])
