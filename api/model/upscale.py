@@ -1,11 +1,9 @@
-class Post():
-    def __init__(self, id = "0", process_id = "", status = "", file = "", tag = ""):
+class Upscale():
+    def __init__(self, id = "0", status = "", file = ""):
         self.result = {}
         self.result["id"] = id
-        self.result["process_id"] = id
         self.result["status"] = status
         self.result["file"] = file
-        self.result["tag"] = tag
 
     def set_id(self, value: str):
         self.result["id"] = value
@@ -33,9 +31,3 @@ class Post():
 
     def get_data(self):
         return self.result
-
-    def get_tag(self):
-        return self.result["tag"]
-
-    def get_process_id(self):
-        return self.result["process_id"]
