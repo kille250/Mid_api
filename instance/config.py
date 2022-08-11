@@ -1,4 +1,4 @@
 IP = "127.0.0.1"
-PORT = "1337"
-AUTH = ""
-DOMAIN = "http://127.0.0.1:1337/"
+PORT = "5000"
+AUTH = "MTc4NTU4MDgzNjg4MTY5NDcy.G_udME.pcrYLN1jTqIEoYnAqq8mEnmou4iQOaDIwnd4lo"
+DOMAIN = "http://127.0.0.1:5000/"

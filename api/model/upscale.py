@@ -14,12 +14,6 @@ class Upscale():
     def set_file(self, value: str):
         self.result["file"] = value
 
-    def set_tag(self, value: str):
-        self.result["tag"] = value
-
-    def set_process_id(self, value: str):
-        self.result["process_id"] = value
-
     def get_id(self):
         return self.result["id"]
 
