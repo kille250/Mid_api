@@ -11,6 +11,7 @@ data = []
 
 data_up = []
 
+
 def validate_request(errlist):
     def container(fun):
         @wraps(fun)
@@ -29,12 +30,14 @@ def validate_request(errlist):
         return wrapper
     return container
 
+
 def head_builder(key: str):
     header = {
-        "Authorization" : key
+        "Authorization": key
     }
 
     return header
+
 
 def make_payload(query: str):
     payload = {
@@ -45,6 +48,7 @@ def make_payload(query: str):
     "data":{"version":"994261739745050686","id":"938956540159881230", "name":"imagine","type":1,"options":[{"type":3,"name":"prompt", "value":query}]}}
 
     return payload
+
 
 def make_payload_up(id: str, image: str):
     payload = {
@@ -63,6 +67,7 @@ def get_posts():
     js = json.loads(mess.text)
     return js
 
+
 def get_local_post_by_id(id: str):
     for i in data:
         if i.get_id() == id:
@@ -77,16 +82,19 @@ def get_post(id: str):
             return i
     return None
 
+
 def get_post_by_string(inp: str):
     js = get_posts()
     results = [x for x in js if inp in x["content"]]
     return results
+
 
 def get_upscale(id: str):
     for i in data_up:
         if i.get_id() == id:
             return i
     return None
+
 
 def response_maker(data: dict, code: int):
     response = current_app.response_class(
@@ -96,12 +104,14 @@ def response_maker(data: dict, code: int):
     )
     return response
 
+
 @api_bp.route("/", methods=['GET'])
 def home_page():
     arr = {}
     for i in range(len(data)):
         arr[i] = data[i].get_data()
     return response_maker(arr, 200)
+
 
 @api_bp.route("/upscale/<id>", methods=['GET'])
 def get_upscale_per_id(id: str):
@@ -159,6 +169,7 @@ def post_query():
         data.append(post)
         domain = current_app.config['IP']
         return response_maker(post.get_data(), 200)
+
 
 @api_bp.route("/upscale", methods=['GET', 'POST'])
 @validate_request({"id", "option"})
