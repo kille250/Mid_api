@@ -4,6 +4,7 @@ from api.api import api_bp
 from post.post import post_bp
 from user.user import user_bp
 
+
 db = SQLAlchemy()
 
 

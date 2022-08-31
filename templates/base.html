@@ -3,7 +3,22 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="bg-dark">
+<body class="bg-dark text-center">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="#">SolidBooru</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="{{url_for('post_bp.home_page')}}">Generate</a>
+      <a class="nav-item nav-link" href="{{url_for ('user_bp.login')}}">Login</a>
+      <a class="nav-item nav-link" href="{{url_for ('user_bp.register')}}">Register</a>
+      <a class="nav-item nav-link disabled" href="#">Disabled</a>
+    </div>
+  </div>
+</nav>
+
     {% block content %}
     {% endblock %}
 
