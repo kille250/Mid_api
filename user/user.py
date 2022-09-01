@@ -1,11 +1,47 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from db.models.user import User
+from utils.gen import randomstr
+from db.models.user import User, Invite
 from database import db
 
 
 user_bp = Blueprint('user_bp', __name__)
+
+
+@user_bp.route('/invite', methods=['GET'])
+@login_required
+def invite():
+    codes_list = Invite.query.filter_by(status=False)
+
+    return render_template("login/invite.html", codes=codes_list)
+
+@user_bp.route('/invite', methods=['POST'])
+@login_required
+def invite_post():
+    check = None
+    rand = randomstr(6)
+    method = request.form.get('linvite')
+
+    if not current_user.name == "moistdio":
+        flash("You're not allowed to use that button")
+        return redirect(url_for("user_bp.invite"))
+
+    if not method == "Generate":
+        flash("Error processing request")
+        return redirect(url_for("user_bp.invite"))
+
+    while(True):
+        check = Invite.query.filter_by(code=rand).first()
+        if not check:
+            break
+
+    new_code = Invite(code=rand)
+    db.session.add(new_code)
+    db.session.commit()
+
+    flash(f"Code {rand} is generated.")
+    return redirect(url_for("user_bp.invite"))
 
 
 @user_bp.route('/register', methods=['GET'])
@@ -17,12 +53,28 @@ def register():
 def register_post():
     name = request.form.get('lname')
     password = request.form.get('lpassword')
+    code = request.form.get('lcode')
 
-    user = User.query.filter_by(name=name).first()
+    if name == "" or name.startswith(" "):
+        flash("Name is invalid")
+        return redirect(url_for("user_bp.register"))
 
-    if user:
+    users = User.query
+
+    user_check = users.filter_by(name=name).first()
+
+    if user_check:
         flash('Username address already exists')
         return redirect(url_for("user_bp.register"))
+
+    code_check = Invite.query.filter_by(code=code).first()
+
+    if users.first():
+        if not code_check or code_check.status != False:
+            flash("Code is invalid or already taken. Please try again")
+            return redirect(url_for("user_bp.register"))
+
+        code_check.status = True
 
     new_user = User(name=name, password=generate_password_hash(password, method='sha256'))
 
