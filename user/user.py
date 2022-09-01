@@ -12,7 +12,7 @@ user_bp = Blueprint('user_bp', __name__)
 @login_required
 def home():
 
-    return redirect(for_url("post_bp.home_page"))
+    return redirect(url_for("post_bp.home_page"))
 
 
 @user_bp.route('/invite', methods=['GET'])
