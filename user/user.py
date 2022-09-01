@@ -8,6 +8,12 @@ from database import db
 
 user_bp = Blueprint('user_bp', __name__)
 
+@user_bp.route('/', methods=['GET'])
+@login_required
+def home():
+
+    return redirect(for_url("post_bp.home_page"))
+
 
 @user_bp.route('/invite', methods=['GET'])
 @login_required
