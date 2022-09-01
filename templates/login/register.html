@@ -3,12 +3,20 @@
 
 <div class="h-100 d-flex justify-content-center align-items-center">
   <form method="POST" action="{{url_for('user_bp.register')}}">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-warning">
+          {{ messages[0] }}. Go to <a href="{{ url_for('user_bp.login') }}">login page</a>.
+      </div>
+      {% endif %}
+      {% endwith %}
     <div class="p-3 mb-5 bg-white rounded">
+      <h1>Register</h1>
       <div class="form-group">
-          <input type="email" class="form-control" id="lemail" placeholder="Enter email">
+          <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Username">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" id="lpassword" placeholder="Password">
+        <input type="password" class="form-control" id="lpassword" name="lpassword" placeholder="Password">
       </div>
       <div class="row justify-content-center">
         <input class="btn btn-primary" type="submit" value="Register">

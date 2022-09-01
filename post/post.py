@@ -1,4 +1,5 @@
 from flask import *
+from flask_login import login_required
 import json
 import requests
 
@@ -6,11 +7,13 @@ post_bp = Blueprint('post_bp', __name__)
 
 
 @post_bp.route("/", methods=['GET'])
+@login_required
 def home_page():
     return render_template('post/index.html')
 
 
 @post_bp.route("/process", methods=['POST'])
+@login_required
 def send_request():
     test = {
     "value" : request.form.get('value')
@@ -26,6 +29,7 @@ def send_request():
 
 
 @post_bp.route("/<id>/<option>", methods=['GET', 'POST'])
+@login_required
 def upscale(id: str, option: str):
     test = {
     "id" : id,
@@ -37,6 +41,7 @@ def upscale(id: str, option: str):
 
 
 @post_bp.route("/upscale/<id>", methods=['GET'])
+@login_required
 def view_upscale(id: str):
 
     res = requests.get(current_app.config['DOMAIN']+"api/upscale/"+id)
@@ -55,6 +60,7 @@ def view_upscale(id: str):
 
 
 @post_bp.route("/<id>", methods=['GET'])
+@login_required
 def view(id: str):
 
     res = requests.get(current_app.config['DOMAIN']+"api/post/"+id)
