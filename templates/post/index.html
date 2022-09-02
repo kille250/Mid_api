@@ -9,16 +9,15 @@
 
 <div class="d-flex justify-content-center align-items-center" style="background-image: url('https://cdn.donmai.us/original/d6/8b/__asuna_and_kirito_sword_art_online_drawn_by_yuuki_tatsuya__d68bd8004d256479d239077c46edf0fe.jpg');
        height: 100%">
+
+  <div class="shadow-custom p-3 mb-5 bg-white rounded">
   <form method="POST" action="/generate/process">
-    <div class="shadow-custom p-3 mb-5 bg-white rounded">
-      <div class="form-group">
-        <label class="form-text text-black" for="value">Let your imagination take the lead</label><br>
-        <input type="text" class="form-control" id="value" name="value"><br><br>
-        <div class="row justify-content-center">
-          <input class="btn btn-primary" type="submit" value="Submit">
+        <div class="mb-3">
+          <label class="form-text text-black" for="value">Let your imagination take the lead</label><br>
         </div>
-      </div>
-    </div>
+        <input type="text" class="form-control" id="value" name="value"><br><br>
+        <input class="btn btn-primary" type="submit" value="Submit">
   </form>
+</div>
 </div>
 {% endblock %}
