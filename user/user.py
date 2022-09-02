@@ -8,10 +8,10 @@ from database import db
 
 user_bp = Blueprint('user_bp', __name__)
 
+
 @user_bp.route('/', methods=['GET'])
 @login_required
 def home():
-
     return redirect(url_for("post_bp.home_page"))
 
 
@@ -21,6 +21,7 @@ def invite():
     codes_list = Invite.query.filter_by(status=False)
 
     return render_template("login/invite.html", codes=codes_list)
+
 
 @user_bp.route('/invite', methods=['POST'])
 @login_required
@@ -52,6 +53,10 @@ def invite_post():
 
 @user_bp.route('/register', methods=['GET'])
 def register():
+    if current_user.is_authenticated is True:
+        return redirect(url_for("post_bp.home_page"))
+
+    print(current_user)
     return render_template("login/register.html")
 
 
@@ -76,7 +81,7 @@ def register_post():
     code_check = Invite.query.filter_by(code=code).first()
 
     if users.first():
-        if not code_check or code_check.status != False:
+        if not code_check or code_check.status is not False:
             flash("Code is invalid or already taken. Please try again")
             return redirect(url_for("user_bp.register"))
 
@@ -92,6 +97,9 @@ def register_post():
 
 @user_bp.route('/login', methods=['GET'])
 def login():
+    if current_user.is_authenticated is True:
+        return redirect(url_for("post_bp.home_page"))
+
     return render_template("login/login.html")
 
 
